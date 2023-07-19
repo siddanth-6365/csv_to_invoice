@@ -22,9 +22,9 @@ export const InvoicePage = () => {
     const fetchOrderTotals = async () => {
       try {
         const path = `/invoice/${id}`;
-        console.log("paht :", path);
-        const response = await fetch(path);
-        const data = await response.json();
+        console.log("path :", path);
+        const response = await axios.get(path);
+        const data = await response.data;
         console.log("response data:", data);
         setItems(data.items);
         setuserdata(data.userData[0]);
@@ -33,7 +33,6 @@ export const InvoicePage = () => {
       }
     };
     fetchOrderTotals();
-    // setDatefun();
   }, [id]); // Include 'id' as a dependency to re-fetch data when 'id' changes
 
   function returnmenu(e) {

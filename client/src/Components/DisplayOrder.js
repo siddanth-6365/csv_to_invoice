@@ -16,6 +16,12 @@ const DisplayOrder = () => {
         const data = response.data;
         setOrderTotals(data.data);
         setIsLoading(false);
+        window.onload = function() {
+          if(!window.location.hash) {
+              window.location = window.location + '#loaded';
+              window.location.reload();
+          }
+      }
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -23,6 +29,8 @@ const DisplayOrder = () => {
     // Refresh the page only once during initial load
     if (isLoading) {
       fetchOrderTotals();
+      
+    
     }
   }, []);
 

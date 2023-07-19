@@ -7,21 +7,23 @@ const Order = require("./models/Order");
 var csv = require("csvtojson");
 var bodyParser = require("body-parser");
 const cors = require("cors");
+require('dotenv').config()
 const port = process.env.PRT || 3030;
 
 var upload = multer({ dest: "uploads/" });
 
 // Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 
 mongoose
-  .connect(
-    process.env.MONGO_URL,
-    { useNewUrlParser: true }
-  )
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true })
   .then(() => console.log("connected to db"))
-  .catch((err) => console.log("error while connecting mongoDb :" ,err));
-
+  .catch((err) => console.log("error while connecting mongoDb :", err));
 
 //fetch data from the request
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +36,6 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.json("test api");
 });
-
 
 async function saveOrders(jsonData) {
   try {
@@ -108,7 +109,6 @@ app.get("/orders", async (req, res) => {
     }
     res.json({
       data: orderTotals,
-      
     });
   } catch (error) {
     console.error("Error fetching orders:", error);
@@ -159,7 +159,5 @@ app.get("/invoice/:id", async (req, res) => {
     });
   }
 });
-
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
