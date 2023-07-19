@@ -7,7 +7,7 @@ const Order = require("./models/Order");
 var csv = require("csvtojson");
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const port = 3000;
+const port = process.env.PRT || 3030;
 
 var upload = multer({ dest: "uploads/" });
 
@@ -16,11 +16,11 @@ app.use(cors());
 
 mongoose
   .connect(
-    "mongodb+srv://siddantheedu:reddy6365@cluster0.xvuh54d.mongodb.net/",
+    process.env.MONGO_URL,
     { useNewUrlParser: true }
   )
   .then(() => console.log("connected to db"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("error while connecting mongoDb :" ,err));
 
 
 //fetch data from the request
